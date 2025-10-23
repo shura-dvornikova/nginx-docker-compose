@@ -1,0 +1,22 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: my-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - type: bind
+        source: ./html        # на хосте
+        target: /usr/share/nginx/html  # в контейнере
+        read_only: true
+
+      - type: bind
+        source: ./nginx/conf.d        # на хосте
+        target: /etc/nginx/conf.d  # в контейнере
+        read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
