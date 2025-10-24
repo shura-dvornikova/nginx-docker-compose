@@ -14,6 +14,13 @@ services:
         source: ./nginx/conf.d        # на хосте
         target: /etc/nginx/conf.d  # в контейнере
         read_only: true
+        
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"        # максимум 1 CPU
+          memory: 256M       # максимум 256 мегабайт
+
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost/health || exit 1"]
       interval: 10s
