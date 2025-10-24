@@ -3,7 +3,7 @@ services:
     image: nginx:alpine
     container_name: my-nginx
     ports:
-      - "8080:80"
+      - "${APP_PORT:-8082}:80"
     volumes:
       - type: bind
         source: ./html        # на хосте
